@@ -5,7 +5,7 @@
 <hibernate-mapping>
     <class name="org.example.Employee" table="employees">
         <id name="id">
-            <generator class="assignated"></generator>
+            <generator class="increment"></generator>
         </id>
         <property name="name"></property>
         <property name="surname"></property>
