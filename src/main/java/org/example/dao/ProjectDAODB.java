@@ -10,7 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.List;
 
-public class ProjectDAODB implements AbstractDAOInterface<Project>{
+public class ProjectDAODB implements AbstractDAOInterface<Project> {
     private SessionFactory sessionFactory;
     private Session session;
     private Transaction transaction;
@@ -22,60 +22,70 @@ public class ProjectDAODB implements AbstractDAOInterface<Project>{
         return metadata.getSessionFactoryBuilder().build();
     }
 
-    private Session openSession(){
-        if(sessionFactory == null){
+    private Session openSession() {
+        if (sessionFactory == null) {
             sessionFactory = getSessionFactory();
             session = sessionFactory.openSession();
         }
         return session;
     }
 
-    private Session openSessionWithTransaction(){
+    private Session openSessionWithTransaction() {
         session = openSession();
         transaction = session.beginTransaction();
         return session;
     }
 
-    private void closeSession(){
-        if(session != null){
+    private void closeSession() {
+       if (session != null) {
             session.close();
-        }
+       }
     }
 
-    private void closeSessionWithTransacrion(){
-        if(transaction != null){
+    private void closeSessionWithTransacrion() {
+       if (transaction != null) {
             transaction.commit();
-            closeSession();
-        }
+       }
+        closeSession();
     }
 
     @Override
     public void persist(Project entity) {
-
+        openSessionWithTransaction().save(entity);
+        closeSessionWithTransacrion();
     }
 
     @Override
     public void update(Project entity) {
-
+        openSessionWithTransaction().update(entity);
+        closeSessionWithTransacrion();
     }
 
     @Override
     public Project findByID(Integer id) {
+        Project project = (Project) openSession().get(Project.class, id);
+        closeSession();
         return null;
     }
 
     @Override
     public void delete(Project entity) {
-
+        openSessionWithTransaction().delete(entity);
+        closeSessionWithTransacrion();
     }
 
     @Override
     public void deleteAll() {
-
+        List<Project> projects = findAll();
+        for (Project p: projects) {
+            delete(p);
+        }
     }
 
     @Override
     public List<Project> findAll() {
-        return null;
+        List<Project> projects = (List<Project>) openSession().createQuery("FROM Project").list();
+        closeSession();
+        return projects;
     }
 }

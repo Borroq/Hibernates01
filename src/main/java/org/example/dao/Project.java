@@ -11,9 +11,9 @@ public class Project implements Serializable {
     public Project() {
     }
 
-    public Project(String name, Date cteationDate) {
+    public Project(String name, Date creationDate) {
         this.name = name;
-        this.cteationDate = cteationDate;
+        this.creationDate = creationDate;
     }
 
     @Id
@@ -22,7 +22,7 @@ public class Project implements Serializable {
     private int id;
 
     private String name;
-    private Date cteationDate;
+    private Date creationDate;
 
     public int getId() {
         return id;
@@ -40,12 +40,12 @@ public class Project implements Serializable {
         this.name = name;
     }
 
-    public Date getCteationDate() {
-        return cteationDate;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setCteationDate(Date cteationDate) {
-        this.cteationDate = cteationDate;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Project implements Serializable {
         return "Project{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", cteationDate=" + cteationDate +
+                ", cteationDate=" + creationDate +
                 '}';
     }
 }

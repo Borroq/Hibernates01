@@ -19,5 +19,6 @@
         <mapping class="org.example.manyToMany.model.Tag"></mapping>
         <mapping class="org.example.oneToOne.model2.User"></mapping>
         <mapping class="org.example.oneToOne.model2.ContactDetalis"></mapping>
+        <mapping class="org.example.dao.Project"></mapping>
     </session-factory>
 </hibernate-configuration>
