@@ -11,9 +11,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import java.util.List;
 
 public class ProjectDAODB implements AbstractDAOInterface<Project> {
-    private SessionFactory sessionFactory;
-    private Session session;
-    private Transaction transaction;
+    private SessionFactory sessionFactory = null;
+    private Session session = null;
+    private Transaction transaction = null;
 
     private SessionFactory getSessionFactory() {
         StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.ctg.xml").build();
@@ -25,8 +25,8 @@ public class ProjectDAODB implements AbstractDAOInterface<Project> {
     private Session openSession() {
         if (sessionFactory == null) {
             sessionFactory = getSessionFactory();
-            session = sessionFactory.openSession();
         }
+        session = sessionFactory.openSession();
         return session;
     }
 
@@ -51,7 +51,8 @@ public class ProjectDAODB implements AbstractDAOInterface<Project> {
 
     @Override
     public void persist(Project entity) {
-        openSessionWithTransaction().save(entity);
+        openSessionWithTransaction().persist(entity);
+        session.flush();
         closeSessionWithTransacrion();
     }
 
@@ -65,12 +66,12 @@ public class ProjectDAODB implements AbstractDAOInterface<Project> {
     public Project findByID(Integer id) {
         Project project = (Project) openSession().get(Project.class, id);
         closeSession();
-        return null;
+        return project;
     }
 
     @Override
     public void delete(Project entity) {
-        openSessionWithTransaction().delete(entity);
+        openSessionWithTransaction().remove(entity);
         closeSessionWithTransacrion();
     }
 
@@ -84,6 +85,18 @@ public class ProjectDAODB implements AbstractDAOInterface<Project> {
 
     @Override
     public List<Project> findAll() {
+        /*Session session1 = null;
+        List<Project> projects = null;
+        try {
+           session1 = sessionFactory.openSession();
+           projects = (List<Project>) session1.createQuery("FROM Project").list();
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            if (session1 != null){
+                session1.close();
+            }
+        }*/
         List<Project> projects = (List<Project>) openSession().createQuery("FROM Project").list();
         closeSession();
         return projects;

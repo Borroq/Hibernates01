@@ -10,7 +10,7 @@ public class DAOUsageExample {
 
         int randId = new Random().nextInt(99) + 1;
         Project project = new Project("Project #" + randId, new Date());
-        //projectService.persist(project);
+        projectService.persist(project);
 
         List<Project> projects = projectService.findAll();
 
@@ -18,16 +18,17 @@ public class DAOUsageExample {
                 p -> System.out.println(p)
         );
 
-        Project projectFromDB = projectService.findByID(projects.get(0).getId());
+        Project projectFromDB = projectService.findByID(projects.get(1).getId());
         System.out.println("\nProject form DB: " + projectFromDB);
 
-        projectService.delete(projectFromDB);
-        System.out.println("Project id: " + projectFromDB.getId() + " deleted");
+        /*projectService.delete(projectFromDB);
+        */System.out.println("\nProject id: " + projectFromDB.getId() + " deleted");
 
         projects = projectService.findAll();
 
         projects.stream().forEach(
                 p -> System.out.println(p)
         );
+
     }
 }
